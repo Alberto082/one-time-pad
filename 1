@@ -1,0 +1,32 @@
+import random
+
+def generate_key(length):
+    key = []
+    for _ in range(length):
+        key.append(random.choice("ABCDEFGHIJKLMNOPQRSTUVWXYZ"))
+    return "".join(key)
+
+def otp_encrypt(plaintext, key):
+    ciphertext = ""
+    for i in range(len(plaintext)):
+        char = chr((ord(plaintext[i]) + ord(key[i])) % 26 + ord('A'))
+        ciphertext += char
+    return ciphertext
+
+def otp_decrypt(ciphertext, key):
+    plaintext = ""
+    for i in range(len(ciphertext)):
+        char = chr((ord(ciphertext[i]) - ord(key[i])) % 26 + ord('A'))
+        plaintext += char
+    return plaintext
+
+plaintext = input("Enter the plaintext message: ").upper()
+key = generate_key(len(plaintext))
+
+print("Generated Key:", key)
+
+ciphertext = otp_encrypt(plaintext, key)
+print("Encrypted Message:", ciphertext)
+
+decrypted_text = otp_decrypt(ciphertext, key)
+print("Decrypted Message:", decrypted_text)
